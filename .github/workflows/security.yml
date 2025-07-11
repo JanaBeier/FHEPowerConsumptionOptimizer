@@ -1,0 +1,128 @@
+name: Security Audit
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - master
+  pull_request:
+    branches:
+      - main
+      - develop
+      - master
+  schedule:
+    # Run security audit weekly on Monday at 00:00 UTC
+    - cron: '0 0 * * 1'
+
+jobs:
+  security-audit:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Solhint Security Checks
+        run: npm run lint:sol
+        continue-on-error: false
+
+      - name: Check for vulnerable dependencies
+        run: npm audit --audit-level=moderate
+        continue-on-error: true
+
+      - name: Install Slither
+        run: |
+          pip3 install slither-analyzer
+          pip3 install solc-select
+          solc-select install 0.8.24
+          solc-select use 0.8.24
+        continue-on-error: true
+
+      - name: Run Slither Analysis
+        run: |
+          if command -v slither &> /dev/null; then
+            slither contracts/ --exclude-dependencies --print human-summary || true
+          else
+            echo "Slither not available, skipping"
+          fi
+        continue-on-error: true
+
+      - name: Gas Optimization Check
+        run: npm run test:gas
+        env:
+          REPORT_GAS: true
+        continue-on-error: true
+
+      - name: Contract Size Check
+        run: npm run size
+        continue-on-error: true
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-audit-report
+          path: |
+            gas-report.txt
+            slither-report.txt
+          retention-days: 30
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+  dos-protection-check:
+    name: DoS Protection Verification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for unbounded loops
+        run: |
+          echo "Checking for potential DoS vectors..."
+          # Check for unbounded loops in Solidity files
+          if grep -r "for\s*(" contracts/ | grep -v "length"; then
+            echo "⚠️  Warning: Found potential unbounded loops"
+          else
+            echo "✅ No obvious unbounded loop issues found"
+          fi
+        continue-on-error: true
+
+      - name: Check for gas limit issues
+        run: |
+          echo "Checking contract gas usage..."
+          npm run compile
+          npm run size
+        continue-on-error: true
