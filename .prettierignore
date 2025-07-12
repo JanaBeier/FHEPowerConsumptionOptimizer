@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+artifacts/
+cache/
+typechain-types/
+dist/
+build/
+
+# Coverage
+coverage/
+coverage.json
+
+# Environment
+.env
+.env.local
+
+# Generated files
+gas-report.txt
+*.log
+
+# Deployments (optional)
+deployments/
+
+# Git
+.git/
