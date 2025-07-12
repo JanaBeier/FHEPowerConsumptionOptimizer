@@ -1,0 +1,17 @@
+# Node modules
+node_modules/
+
+# Build artifacts
+artifacts/
+cache/
+typechain-types/
+
+# Coverage
+coverage/
+
+# Dependencies
+@openzeppelin/
+@fhevm/
+
+# Test files
+test/
