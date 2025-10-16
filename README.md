@@ -8,7 +8,7 @@
 
 🌐 **Live Demo**: [https://power-consumption-optimizer.vercel.app](https://power-consumption-optimizer.vercel.app)
 
-📺 **Video Demo**: [PowerConsumptionOptimizer.mp4](./PowerConsumptionOptimizer.mp4)
+📺 **Video Demo**: [demo.mp4]
 
 ---
 
@@ -693,7 +693,7 @@ npm run lint
 
 🌐 **Application**: [https://power-consumption-optimizer.vercel.app](https://power-consumption-optimizer.vercel.app)
 
-📺 **Video Demo**: [PowerConsumptionOptimizer.mp4](./PowerConsumptionOptimizer.mp4)
+📺 **Video Demo**: [demo.mp4]
 
 ### Contract
 
