@@ -2,8 +2,7 @@
 
 > Privacy-preserving energy analytics powered by Zama's Fully Homomorphic Encryption (FHE) technology
 
-[![Tests](https://github.com/username/power-consumption-optimizer/actions/workflows/test.yml/badge.svg)](https://github.com/username/power-consumption-optimizer/actions/workflows/test.yml)
-[![Coverage](https://github.com/username/power-consumption-optimizer/actions/workflows/coverage.yml/badge.svg)](https://github.com/username/power-consumption-optimizer/actions/workflows/coverage.yml)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 🌐 **Live Demo**: [https://power-consumption-optimizer.vercel.app](https://power-consumption-optimizer.vercel.app)
