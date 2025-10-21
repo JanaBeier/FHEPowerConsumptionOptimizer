@@ -5,7 +5,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-🌐 **Live Demo**: [https://power-consumption-optimizer.vercel.app](https://power-consumption-optimizer.vercel.app)
+🌐 **Live Demo**: [https://fhe-power-consumption-optimizer.vercel.app/](https://fhe-power-consumption-optimizer.vercel.app/)
 
 📺 **Video Demo**: [demo.mp4]
 
@@ -690,7 +690,7 @@ npm run lint
 
 ### Live Demo
 
-🌐 **Application**: [https://power-consumption-optimizer.vercel.app](https://power-consumption-optimizer.vercel.app)
+🌐 **Application**: [https://fhe-power-consumption-optimizer.vercel.app/](https://fhe-power-consumption-optimizer.vercel.app/)
 
 📺 **Video Demo**: [demo.mp4]
 
@@ -767,7 +767,7 @@ If you find this project useful, please consider giving it a ⭐!
 
 <div align="center">
 
-**[Website](https://power-consumption-optimizer.vercel.app)** •
+**[Website](https://fhe-power-consumption-optimizer.vercel.app/)** •
 **[Documentation](./DEPLOYMENT.md)** •
 **[API Reference](./API.md)** •
 **[Contributing](./CONTRIBUTING.md)**
