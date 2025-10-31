@@ -52,14 +52,27 @@ Built for the **Zama FHE Challenge** - demonstrating practical privacy-preservin
 
 ## 🏗️ Architecture
 
+### System Architecture
+
 ```
-┌─────────────────────────────────────────────────────────┐
-│                   User Interface                         │
-│          (React Frontend + FHEVM SDK)                   │
-└────────────────┬────────────────────────────────────────┘
-                 │
-                 │ Encrypted Data
-                 ▼
+┌──────────────────────────────────────────────────────────────┐
+│                    Frontend Layer                             │
+│                                                               │
+│  ┌─────────────────────────┐  ┌────────────────────────┐   │
+│  │   React + Vite App      │  │   Static HTML          │   │
+│  │  (TypeScript, Modern)   │  │   (Vanilla JS)         │   │
+│  │                         │  │                        │   │
+│  │  • WalletConnect        │  │  • MetaMask Connect    │   │
+│  │  • DeviceRegistration   │  │  • Direct Contract     │   │
+│  │  • ConsumptionUpdate    │  │    Interaction         │   │
+│  │  • SystemStats          │  │  • Basic UI            │   │
+│  │  • Custom Hooks         │  │                        │   │
+│  └─────────────────────────┘  └────────────────────────┘   │
+│                ↓                          ↓                  │
+└────────────────┼──────────────────────────┼──────────────────┘
+                 │                          │
+                 │  Ethers.js + fhevmjs    │
+                 ↓                          ↓
 ┌─────────────────────────────────────────────────────────┐
 │               Smart Contract Layer                       │
 │         (Solidity + Zama FHEVM Library)                 │
@@ -81,6 +94,32 @@ Built for the **Zama FHE Challenge** - demonstrating practical privacy-preservin
 │  ├── Encrypted Selection (FHE.select)                 │
 │  └── Privacy-Preserving Results                        │
 └─────────────────────────────────────────────────────────┘
+```
+
+### React Application Architecture
+
+```
+power-optimizer-react/
+│
+├── Components Layer (Presentation)
+│   ├── WalletConnect      → Wallet UI & Status
+│   ├── DeviceRegistration → Device Form
+│   ├── ConsumptionUpdate  → Update Form
+│   ├── SystemStats        → Statistics Display
+│   ├── DeviceList         → Device Management
+│   └── AlertList          → Notifications
+│
+├── Hooks Layer (Business Logic)
+│   ├── useWallet          → MetaMask integration
+│   ├── usePowerContract   → Contract interactions
+│   └── useAlerts          → Alert management
+│
+├── Library Layer (Configuration)
+│   ├── contract.ts        → ABI & Address
+│   └── types.ts           → TypeScript types
+│
+└── Build Layer (Development)
+    └── Vite               → Fast HMR & Build
 ```
 
 ### Data Flow
@@ -166,6 +205,30 @@ npm run test:sepolia
 
 ### Local Development
 
+#### Option 1: React + Vite Application (Recommended)
+
+```bash
+# Navigate to React app
+cd power-optimizer-react
+
+# Install dependencies
+npm install
+
+# Start development server with HMR
+npm run dev
+
+# Open http://localhost:5173
+```
+
+The React application provides:
+- 🎯 **Complete UI** for all contract functions
+- 🔄 **Real-time updates** with auto-refresh
+- 📱 **Responsive design** for mobile devices
+- 🎨 **Modern components** with TypeScript
+- ⚡ **Instant HMR** with Vite
+
+#### Option 2: Contract Development
+
 ```bash
 # Start local Hardhat node
 npm run node
@@ -173,7 +236,7 @@ npm run node
 # Deploy to local network (new terminal)
 npm run deploy:local
 
-# Start development server
+# Start static HTML frontend
 npm run dev
 ```
 
@@ -371,6 +434,7 @@ Solidity:     0.8.24
 Framework:    Hardhat 2.19.0+
 FHE Library:  @fhevm/solidity
 Network:      Sepolia Testnet
+Compiler:     0.8.24 with optimizer (200 runs)
 ```
 
 ### Development Tools
@@ -381,15 +445,62 @@ Coverage:     Solidity Coverage (95%+)
 Linting:      Solhint + ESLint
 Formatting:   Prettier
 Gas Analysis: Hardhat Gas Reporter
+Security:     Pre-commit hooks, npm audit
 ```
 
-### Frontend (Optional)
+### Frontend Options
+
+#### Option 1: React + Vite (Recommended)
+
+**Location**: `D:\power-optimizer-react`
 
 ```
-Framework:    React + Vite
-Web3:         Ethers.js v5
-FHE SDK:      fhevmjs
-Wallet:       MetaMask
+Framework:       React 18.2.0
+Build Tool:      Vite 4.4.0 (Lightning-fast)
+Language:        TypeScript 5.0+
+Web3:            Ethers.js v5.7.2
+FHE SDK:         fhevmjs ^0.5.0
+State:           Custom React Hooks
+UI:              Component-based architecture
+Wallet:          MetaMask integration
+Development:     Hot Module Replacement (HMR)
+```
+
+**Key Features**:
+- ⚡ Vite for instant server start and blazing-fast HMR
+- 🎨 Modern component-based architecture (6 components)
+- 🪝 Custom hooks (useWallet, usePowerContract, useAlerts)
+- 📱 Responsive design with mobile support
+- 🔄 Real-time statistics with auto-refresh
+- 💪 Full TypeScript support with strict mode
+- 🎯 Type-safe contract interactions
+
+**Project Structure**:
+```
+power-optimizer-react/
+├── src/
+│   ├── components/         # 6 React components
+│   ├── hooks/              # 3 custom hooks
+│   ├── lib/                # Contract ABI & types
+│   ├── styles/             # CSS modules
+│   └── App.tsx             # Main app
+├── vite.config.ts          # Vite configuration
+└── tsconfig.json           # TypeScript config
+```
+
+**Quick Start**:
+```bash
+cd D:\power-optimizer-react
+npm install
+npm run dev     # Runs on http://localhost:5173
+```
+
+#### Option 2: Static HTML (Simple)
+
+```
+Framework:    Vanilla JavaScript
+Web3:         Ethers.js v5 (CDN)
+Build:        None (static files)
 Hosting:      Vercel
 ```
 
@@ -400,11 +511,57 @@ Platform:     GitHub Actions
 Workflows:    Test, Coverage, Security
 Node:         18.x, 20.x (matrix)
 Security:     Slither, npm audit, DoS checks
+Pre-commit:   Automated linting & testing
 ```
 
 ---
 
 ## 📖 Usage Guide
+
+### Using the React Application
+
+The React + Vite application provides a complete user interface for interacting with the smart contract.
+
+**Components Overview**:
+
+1. **WalletConnect** - Connect/disconnect MetaMask wallet
+2. **DeviceRegistration** - Register new energy devices
+3. **ConsumptionUpdate** - Update power consumption data
+4. **SystemStats** - View real-time system statistics
+5. **DeviceList** - Manage your registered devices
+6. **AlertList** - Toast-style notifications
+
+**Custom Hooks**:
+
+```typescript
+// useWallet - Wallet management
+const { wallet, connectWallet, disconnectWallet } = useWallet();
+
+// usePowerContract - Contract interactions
+const {
+  registerDevice,
+  updateConsumption,
+  startOptimization,
+  getSystemStats
+} = usePowerContract(signer);
+
+// useAlerts - Alert notifications
+const { alerts, addAlert } = useAlerts();
+```
+
+**Example Usage**:
+
+```typescript
+// Register a device
+await registerDevice("Smart Thermostat");
+addAlert("Device registered successfully!", "success");
+
+// Update consumption
+await updateConsumption(1500, 750);
+addAlert("Consumption updated!", "success");
+```
+
+### Using the Smart Contract Directly
 
 ### 1. Register a Device
 
@@ -467,13 +624,24 @@ console.log("Devices analyzed:", recommendation.deviceCount);
 
 ## 🛠️ Scripts & Commands
 
-### Development
+### React Application (power-optimizer-react)
+
+```bash
+cd power-optimizer-react
+
+npm run dev              # Start Vite dev server (port 5173)
+npm run build            # Build for production
+npm run preview          # Preview production build
+npm run lint             # Lint TypeScript/React code
+```
+
+### Smart Contract Development
 
 ```bash
 npm run compile          # Compile contracts
 npm run clean            # Clean artifacts
-npm run node             # Start local node
-npm run dev              # Start dev server
+npm run node             # Start local Hardhat node
+npm run dev              # Start static HTML server
 ```
 
 ### Testing
