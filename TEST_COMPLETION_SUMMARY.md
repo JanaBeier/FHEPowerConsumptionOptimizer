@@ -397,7 +397,7 @@ expect(receipt.gasUsed).to.be.lt(200000);
 
 ## 📝 Test Patterns Used
 
-### ✅ Standard Patterns from CASE1_100_TEST_COMMON_PATTERNS.md
+### ✅ Standard Test Patterns
 
 1. **Deployment Fixture** - Used in all tests
 2. **Multi-signer Setup** - owner, alice, bob, charlie
