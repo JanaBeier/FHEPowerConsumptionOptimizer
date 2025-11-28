@@ -8,6 +8,7 @@
 🌐 **Live Demo**: [https://fhe-power-consumption-optimizer.vercel.app/](https://fhe-power-consumption-optimizer.vercel.app/)
 
 📺 **Video Demo**: [demo.mp4] 
+
 ---
 
 ## 🎯 Overview
